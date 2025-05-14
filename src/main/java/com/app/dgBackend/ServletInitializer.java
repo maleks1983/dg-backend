@@ -1,4 +1,4 @@
-package com.app.dgbackend;
+package com.app.dgBackend;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
