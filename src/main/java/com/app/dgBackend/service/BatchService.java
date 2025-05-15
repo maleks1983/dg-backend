@@ -6,6 +6,7 @@ import com.app.dgBackend.dto.mapper.BatchMapper;
 import com.app.dgBackend.entity.Batch;
 import com.app.dgBackend.repository.BatchRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,12 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class BatchService {
     private final BatchRepository batchRepository;
-
-    public BatchService(BatchRepository batchRepository) {
-        this.batchRepository = batchRepository;
-    }
 
     public void update(Batch batch) {
         if (batch.getId() == null || !batchRepository.existsById(batch.getId())) {

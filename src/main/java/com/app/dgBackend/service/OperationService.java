@@ -2,19 +2,18 @@ package com.app.dgBackend.service;
 
 import com.app.dgBackend.entity.Operation;
 import com.app.dgBackend.repository.OperationRepository;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class OperationService {
 
     private final OperationRepository operationRepository;
 
-    public OperationService(OperationRepository operationRepository) {
-        this.operationRepository = operationRepository;
-    }
 
     public Operation save(@NotNull Operation operation) {
         if (!operation.isNew()) {

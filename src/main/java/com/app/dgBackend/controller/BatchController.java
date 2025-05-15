@@ -5,19 +5,17 @@ import com.app.dgBackend.dto.PageResponse;
 import com.app.dgBackend.entity.Batch;
 import com.app.dgBackend.service.BatchService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/batch")
 public class BatchController {
 
     private final BatchService batchService;
-
-    public BatchController(BatchService batchService) {
-        this.batchService = batchService;
-    }
 
     @GetMapping
     public ResponseEntity<PageResponse<BatchDTO>> getAllBatches(

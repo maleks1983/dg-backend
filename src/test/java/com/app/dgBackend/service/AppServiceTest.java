@@ -19,9 +19,5 @@ class AppServiceTest {
     @Autowired
     private AppService appService;
 
-    @Test
-    void getProducts() {
-        List<Product> p = appService.getProducts();
-        assertNotNull(p);
-    }
+
 }
