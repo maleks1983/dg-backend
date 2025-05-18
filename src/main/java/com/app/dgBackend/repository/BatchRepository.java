@@ -1,7 +1,6 @@
 package com.app.dgBackend.repository;
 
 import com.app.dgBackend.entity.Batch;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +16,6 @@ public interface BatchRepository extends JpaRepository<Batch, Integer> {
             WHERE p.serial = :serial
             """, nativeQuery = true)
     Optional<Batch> findByProductSerial(@Param("serial") Integer serial);
-
 
 
 }

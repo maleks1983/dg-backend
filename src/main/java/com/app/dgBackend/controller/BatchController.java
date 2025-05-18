@@ -1,8 +1,8 @@
 package com.app.dgBackend.controller;
 
+import com.app.dgBackend.dto.ApiResponse;
 import com.app.dgBackend.dto.BatchDTO;
 import com.app.dgBackend.dto.PageResponse;
-import com.app.dgBackend.entity.Batch;
 import com.app.dgBackend.service.BatchService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -37,26 +37,35 @@ public class BatchController {
             BatchDTO dto = batchService.findByProductSerial(serial);
             return ResponseEntity.ok(dto);
         } catch (EntityNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Не знайдено продукт або партію");
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse("Не знайдено продукт або партію"));
         }
     }
 
     @PostMapping
-    public ResponseEntity<Batch> addBatch(@RequestBody BatchDTO batchDTO) {
-        Batch saved = batchService.saveFromDTO(batchDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    public ResponseEntity<ApiResponse> addBatch(@RequestBody BatchDTO batchDTO) {
+        batchService.saveFromDTO(batchDTO);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ApiResponse("Партію збережено!"));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Batch> updateBatch(@PathVariable Integer id, @RequestBody BatchDTO dto) {
-        Batch updated = batchService.updateFromDTO(id, dto);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<ApiResponse> updateBatch(@PathVariable Integer id, @RequestBody BatchDTO dto) {
+        batchService.updateFromDTO(id, dto);
+        return ResponseEntity.ok(new ApiResponse("Партію оновлено!"));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBatch(@PathVariable Integer id) {
-        batchService.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteBatch(@PathVariable Integer id) {
+        try {
+            batchService.deleteById(id);
+            return ResponseEntity.ok(new ApiResponse("Партію видалено!"));
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse("Не знайдено продукт або партію"));
+        }
     }
 }
-
