@@ -1,6 +1,7 @@
 package com.app.dgBackend.controller;
 
 import com.app.dgBackend.dto.ProductDTO;
+import com.app.dgBackend.dto.UpdateProductRequest;
 import com.app.dgBackend.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,11 @@ public class ProductController {
     private final ProductService productService;
 
 
-    @PutMapping("/{serial}/{newSerial}")
-    public ResponseEntity<?> updateProduct(@PathVariable Integer serial, @PathVariable Integer newSerial) {
+    @PutMapping
+    public ResponseEntity<?> updateProduct(@RequestBody UpdateProductRequest updateProductRequest) {
         try {
-            productService.updateProductSerial(serial, newSerial);
-            return ResponseEntity.ok().build();
+            productService.updateProductSerial(updateProductRequest.getOldSerial(), updateProductRequest.getNewSerial());
+            return ResponseEntity.ok(Map.of("message", "Серійник платки оновлено"));
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -41,7 +42,7 @@ public class ProductController {
 
 
     @DeleteMapping("/{serial}")
-    public ResponseEntity<Void> deleteBatch(@PathVariable Integer serial) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Integer serial) {
         productService.deleteBySerial(serial);
         return ResponseEntity.noContent().build();
     }
